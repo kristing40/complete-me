@@ -24,8 +24,6 @@ export default class Trie {
       currentNode = currentNode.children[letter];
       letter = wordArray.shift()
 
-
-
     }
 
     if (!currentNode.isCompleteWord) {
@@ -84,11 +82,6 @@ export default class Trie {
   }
 
   select(string) {
-  //this.frequency = 0 initialize in node.js
-  //traverse down trie until I get to the end of the word
-  //increment freq counter
-  //sort into array based on freq
-  //return word
 
     let currentNode = this.findNode(string);
 
