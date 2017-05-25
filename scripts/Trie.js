@@ -56,14 +56,16 @@ export default class Trie {
     this.suggestedWord = [];
     string = string.toLowerCase();
     let currentNode = this.findNode(string);
-
-    this.suggDriller(currentNode, string)
+    
+    console.log(currentNode)
+    return this.suggDriller(currentNode, string)
   }
 
   suggDriller (currentNode, string) {
     if (currentNode.isCompleteWord) {
 
       this.suggestedWord.push(string)
+      console.log(this.suggestedWord)
     }
 
     Object.keys(currentNode.children).forEach((item) => {
@@ -85,6 +87,8 @@ export default class Trie {
 
     let currentNode = this.findNode(string);
 
-    currentNode.frequency++
+    if (currentNode.isCompleteWord) {
+      currentNode.frequency++
+    }
   }
 }

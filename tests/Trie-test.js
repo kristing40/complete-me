@@ -92,7 +92,22 @@ describe('Trie should be a function', () => {
 
     let suggestion = trie.suggest('pi');
 
-    expect(suggestion).to.deep.equal(['pint', 'pin', 'pinnacle', 'pine'])
+    expect(suggestion).to.deep.equal(['pin', 'pint', 'pinnacle', 'pine'])
+  })
+
+  it.only('Should select a word form the suggest array and then return an array with the selected word first, if the same suggest is called', () => {
+
+    trie.insert('dam');
+    trie.insert('damp');
+    trie.insert('damage');
+    trie.insert('damaged');
+    console.log(trie.suggest('da'))
+
+    expect(trie.suggest('da')).to.deep.equal(['dam', 'damp', 'damage', 'damaged'])
+
+    trie.select('damage');
+
+    expect(trie.suggest('da')).to.deep.equal(['damage', 'dam', 'damp', 'damaged' ])
   })
 
   it('should add word to sorted array', () => {
@@ -106,6 +121,17 @@ describe('Trie should be a function', () => {
       .children.i
       .children.n
       .children.e.frequency).to.deep.equal(1);
+  })
 
+  it('should update frequency', () => {
+    trie.insert('hi')
+    trie.select('hi')
+
+    console.log(trie.root.children.h.children.i.frequency)
+
+    expect(trie.root
+      .children.h
+      .children.i
+      .frequency).to.equal(1);
   })
 })
