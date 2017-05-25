@@ -82,8 +82,17 @@ export default class Trie {
     })
   }
 
-  //select(word) {
+  select(string) {
+  //this.frequency = 0 initialize in node.js
   //traverse down trie until I get to the end of the word
+  //increment freq counter
+  //sort into array based on freq
   //return word
-  //}
+
+    this.suggest(string)
+    this.frequency++
+    console.log(this.suggest(string))
+    return this.isCompleteWord
+
+  }
 }

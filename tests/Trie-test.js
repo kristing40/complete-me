@@ -71,7 +71,7 @@ describe('Trie should be a function', () => {
     trie.insert('pin');
     trie.insert('pinnacle');
     trie.insert('pine');
-    trie.insert('prone');
+
 
     expect(trie.count()).to.equal(5)
   })
@@ -81,5 +81,23 @@ describe('Trie should be a function', () => {
     let count = trie.count();
 
     expect(count).to.equal(235886);
+  })
+
+  it('should move selected word to front of suggested array', () => {
+
+    trie.insert('pint');
+    trie.insert('pin');
+    trie.insert('pinnacle');
+    trie.insert('pine');
+
+    let suggestion = trie.suggest('pi');
+
+    expect(suggestion).to.deep.equal(['pint', 'pin', 'pinnacle', 'pine'])
+  })
+
+  it.only('should add word to sorted array', () => {
+    let selection = trie.select('pinnacle')
+
+    expect(selection).to.deep.equal(['pine', 'pint', 'pin', 'pinnacle'])
   })
 })
