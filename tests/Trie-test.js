@@ -95,9 +95,17 @@ describe('Trie should be a function', () => {
     expect(suggestion).to.deep.equal(['pint', 'pin', 'pinnacle', 'pine'])
   })
 
-  it.only('should add word to sorted array', () => {
-    let selection = trie.select('pinnacle')
+  it('should add word to sorted array', () => {
+    trie.insert('pine')
+    trie.select('pine')
 
-    expect(selection).to.deep.equal(['pine', 'pint', 'pin', 'pinnacle'])
+    console.log(trie.root.children)
+
+    expect(trie.root
+      .children.p
+      .children.i
+      .children.n
+      .children.e.frequency).to.deep.equal(1);
+
   })
 })

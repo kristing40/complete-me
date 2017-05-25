@@ -11,10 +11,10 @@ export default class Trie {
   insert (string) {
     let wordArray = [...string]
     let currentNode = this.root;
-    // let wordCheck = [];
+    let wordCheck = [];
     let letter = wordArray.shift();
 
-    // wordCheck.push(letter)
+    wordCheck.push(letter)
 
     while (letter) {
       if (!currentNode.children[letter]) {
@@ -24,7 +24,8 @@ export default class Trie {
       currentNode = currentNode.children[letter];
       letter = wordArray.shift()
 
-      // wordCheck.push(letter);
+
+
     }
 
     if (!currentNode.isCompleteWord) {
@@ -89,10 +90,8 @@ export default class Trie {
   //sort into array based on freq
   //return word
 
-    this.suggest(string)
-    this.frequency++
-    console.log(this.suggest(string))
-    return this.isCompleteWord
+    let currentNode = this.findNode(string);
 
+    currentNode.frequency++
   }
 }
