@@ -24,6 +24,8 @@ export default class Trie {
       currentNode = currentNode.children[letter];
       letter = wordArray.shift()
 
+      wordCheck.push(letter)
+
     }
 
     if (!currentNode.isCompleteWord) {
@@ -33,12 +35,12 @@ export default class Trie {
   }
 
   count() {
-
+    // this.wordCount++;
     return this.wordCount;
   }
 
   findNode (string) {
-    let wordArray = [...string.toLowerCase()]
+    let wordArray = [...string]
     let currentNode = this.root;
     let letter = wordArray.shift();
 
@@ -54,27 +56,35 @@ export default class Trie {
 
   suggest(string) {
     this.suggestedWord = [];
+
     string = string.toLowerCase();
+
     let currentNode = this.findNode(string);
-    
-    console.log(currentNode)
-    return this.suggDriller(currentNode, string)
+
+    this.suggDriller(currentNode, string, this.suggestedWord)
+  
+    return this.suggestedWord.sort(function (a, b) {
+      return b.frequency - a.frequency
+    }).map((suggestion) => suggestion.name)
+
   }
 
   suggDriller (currentNode, string) {
     if (currentNode.isCompleteWord) {
 
-      this.suggestedWord.push(string)
-      console.log(this.suggestedWord)
+      this.suggestedWord.push({name: string, frequency: currentNode.frequency})
+
     }
 
-    Object.keys(currentNode.children).forEach((item) => {
+    let currentKeys = Object.keys(currentNode.children);
+
+    currentKeys.forEach((item) => {
+
       let childKey = string + item;
 
-      this.suggDriller(currentNode.children[item], childKey)
+      this.suggDriller(currentNode.children[item], childKey, this.suggestedWord)
     })
 
-    return this.suggestedWord;
   }
 
   populate (dictionary) {

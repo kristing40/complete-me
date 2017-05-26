@@ -17,13 +17,13 @@ describe('Trie should be a function', () => {
     expect(trie).to.be.function;
   })
 
-  it('should be able to insert a new letter into the dictionary', () => {
+  it('should be able to insert a new letter', () => {
     trie.insert('w');
 
     expect(trie.root.children.w.letter).to.equal('w');
   })
 
-  it('should be able to insert a new word into the dictionary', () => {
+  it('should be able to insert a new word', () => {
     trie.insert('who');
 
     expect(trie.root.children.w.letter).to.equal('w');
@@ -40,28 +40,36 @@ describe('Trie should be a function', () => {
   it('should be able to find a word', () => {
     trie.insert('happy');
 
-    expect(trie.findNode('hapyyy')).to.equal('Node does not exist')
+    expect(trie.findNode('happy').letter).to.equal('y')
   })
 
   it('should be able to make suggestions', () => {
 
-    // dictionary.forEach((word) => {
-    //   trie.insert(word);
-    // })
-    trie.insert('pint');
-    trie.insert('pin');
-    trie.insert('pinnacle');
-    trie.insert('pine');
-    trie.insert('prone');
-    trie.insert('ponder');
-    trie.insert('ponderosa')
-    trie.insert('pony');
-    trie.insert('positive');
-  //  trie.select('positive');
-  //   trie.select('pine');
-    let suggestions = trie.suggest('po')
+    dictionary.forEach((word) => {
+      trie.insert(word);
+    })
 
-    console.log(suggestions )
+    let suggestions = trie.suggest('pizz')
+
+    console.log(suggestions)
+    expect(suggestions).to.deep.equal([ 'pizza', 'pizzeria', 'pizzicato', 'pizzle' ])
+  })
+
+  it('should be able to make suggestions', () => {
+
+    dictionary.forEach((word) => {
+      trie.insert(word);
+    })
+
+    let suggestions = trie.suggest('pizz')
+
+    expect(suggestions).to.deep.equal([ 'pizza', 'pizzeria', 'pizzicato', 'pizzle' ])
+
+    trie.select('pizzicato')
+
+    suggestions = trie.suggest('pizz')
+
+    expect(suggestions).to.deep.equal([ 'pizzicato', 'pizza', 'pizzeria', 'pizzle' ])
   })
 
   it('should be able to count number of words', () => {
@@ -72,8 +80,7 @@ describe('Trie should be a function', () => {
     trie.insert('pinnacle');
     trie.insert('pine');
 
-
-    expect(trie.count()).to.equal(5)
+    expect(trie.count()).to.equal(4)
   })
 
   it('should populate dictionary with word', () => {
@@ -90,18 +97,15 @@ describe('Trie should be a function', () => {
     trie.insert('pinnacle');
     trie.insert('pine');
 
-    let suggestion = trie.suggest('pi');
-
-    expect(suggestion).to.deep.equal(['pin', 'pint', 'pinnacle', 'pine'])
+    expect(trie.suggest('pi')).to.deep.equal(['pin', 'pint', 'pinnacle', 'pine'])
   })
 
-  it.only('Should select a word form the suggest array and then return an array with the selected word first, if the same suggest is called', () => {
+  it('Should select a word from the suggest array and then return an array with the selected word first, if the same suggest is called', () => {
 
     trie.insert('dam');
     trie.insert('damp');
     trie.insert('damage');
     trie.insert('damaged');
-    console.log(trie.suggest('da'))
 
     expect(trie.suggest('da')).to.deep.equal(['dam', 'damp', 'damage', 'damaged'])
 
@@ -114,7 +118,6 @@ describe('Trie should be a function', () => {
     trie.insert('pine')
     trie.select('pine')
 
-    console.log(trie.root.children)
 
     expect(trie.root
       .children.p
@@ -126,8 +129,6 @@ describe('Trie should be a function', () => {
   it('should update frequency', () => {
     trie.insert('hi')
     trie.select('hi')
-
-    console.log(trie.root.children.h.children.i.frequency)
 
     expect(trie.root
       .children.h
